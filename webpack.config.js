@@ -1,5 +1,4 @@
 const path = require('path');
-const { merge } = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const webpack = require('webpack');
@@ -7,9 +6,8 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-const baseConfig = {
+module.exports = {
     entry: path.resolve(__dirname, './src/index.js'),
-    mode: 'development',
     module: {
         rules: [
             {
@@ -45,11 +43,4 @@ const baseConfig = {
             'process.env': JSON.stringify(process.env),
         }),
     ],
-};
-
-module.exports = ({ mode }) => {
-    const isProductionMode = mode === 'prod';
-    const envConfig = isProductionMode ? require('./webpack.prod.config') : require('./webpack.dev.config');
-
-    return merge(baseConfig, envConfig);
 };
